@@ -23,7 +23,20 @@ function App() {
   useEffect(() => {
     async function getCamera() {
       try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        const devices = await navigator.mediaDevices.enumerateDevices();
+        const videoDevices = devices.filter(device => device.kind === 'videoinput');
+        const backCamera = videoDevices.find(device => device.label.toLowerCase().includes('back'));
+
+        const constraints = {
+          video: {
+            deviceId: backCamera ? { exact: backCamera.deviceId } : undefined,
+            facingMode: backCamera ? undefined : { exact: 'environment' },
+            width: { ideal: 4096 },
+            height: { ideal: 2160 },
+          },
+        };
+
+        const stream = await navigator.mediaDevices.getUserMedia(constraints);
         if (videoRef.current) {
           videoRef.current.srcObject = stream;
         }
