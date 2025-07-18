@@ -7,6 +7,7 @@ function App() {
   const videoRef = useRef(null);
   const [rotation, setRotation] = useState({ x: 0, y: 0, z: 0 });
   const [position, setPosition] = useState({ x: 0, y: 0, z: -3.835 });
+  const [deviceOrientation, setDeviceOrientation] = useState({ alpha: 0, beta: 0, gamma: 0 });
 
   const kfRotation = {
     x: new KalmanFilter({ R: 0.01, Q: 3 }),
@@ -47,6 +48,7 @@ function App() {
 
     function handleOrientation(event) {
       const { alpha, beta, gamma } = event;
+      setDeviceOrientation({ alpha, beta, gamma });
       setRotation({
         x: kfRotation.x.filter(beta || 0),
         y: kfRotation.y.filter(gamma || 0),
@@ -83,6 +85,11 @@ function App() {
         style={{ position: 'absolute', width: '100%', height: '100%', objectFit: 'cover', zIndex: -1 }}
       />
       <Scene rotation={rotation} position={position} />
+      <div className="info-labels">
+        <div>Camera Position: {`x: ${position.x.toFixed(2)}, y: ${position.y.toFixed(2)}, z: ${position.z.toFixed(2)}`}</div>
+        <div>Camera Rotation: {`x: ${rotation.x.toFixed(2)}, y: ${rotation.y.toFixed(2)}, z: ${rotation.z.toFixed(2)}`}</div>
+        <div>Device Orientation: {`alpha: ${deviceOrientation.alpha.toFixed(2)}, beta: ${deviceOrientation.beta.toFixed(2)}, gamma: ${deviceOrientation.gamma.toFixed(2)}`}</div>
+      </div>
     </div>
   );
 }
