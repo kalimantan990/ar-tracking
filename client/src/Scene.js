@@ -31,13 +31,24 @@ function Cube() {
   );
 }
 
-export default function Scene({ rotation, position }) {
+function SceneContent({ rotation, position }) {
+  const { gl, scene } = useThree();
+  gl.setClearColor(0x000000, 0);
+
   return (
-    <Canvas>
+    <>
       <ambientLight />
       <pointLight position={[10, 10, 10]} />
       <CameraController rotation={rotation} position={position} />
       <Cube />
+    </>
+  );
+}
+
+export default function Scene({ rotation, position }) {
+  return (
+    <Canvas gl={{ alpha: true }}>
+      <SceneContent rotation={rotation} position={position} />
     </Canvas>
   );
 }
