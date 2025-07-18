@@ -6,7 +6,7 @@ import KalmanFilter from './kalman';
 function App() {
   const videoRef = useRef(null);
   const [rotation, setRotation] = useState({ x: 0, y: 0, z: 0 });
-  const [position, setPosition] = useState({ x: 0, y: 0, z: 0 });
+  const [position, setPosition] = useState({ x: 0, y: 0, z: -3.835 });
 
   const kfRotation = {
     x: new KalmanFilter({ R: 0.01, Q: 3 }),

@@ -16,6 +16,8 @@ function CameraController({ rotation, position }) {
 
     // Position
     camera.position.lerp(new THREE.Vector3(position.x, position.y, camera.position.z), 0.1);
+
+    camera.lookAt(0, 0, 0);
   });
 
   return null;
@@ -25,7 +27,7 @@ function Cube() {
   const meshRef = useRef();
 
   return (
-    <Box ref={meshRef} args={[1, 1, 1]} position={[0, 0, -2]}>
+    <Box ref={meshRef} args={[1, 1, 1]} position={[0, 0, 0]}>
       <meshStandardMaterial color="orange" />
     </Box>
   );
